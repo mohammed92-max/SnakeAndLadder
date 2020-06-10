@@ -1,6 +1,8 @@
 #!/bin/bash -x
 
-echo "Snake and Ladder game"
+echo "Player rolls die "
+roll=$((RANDOM%6+1));
 
-player1Start=0;
+echo "number is "$roll;
+
 
