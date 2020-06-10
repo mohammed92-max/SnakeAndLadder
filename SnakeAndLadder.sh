@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+declare i=0
+
 function checkPosition()
 {
     case $Position in
@@ -95,6 +97,10 @@ function checkPosition()
 
    while ((Position < 100 ))
     do
+        key=$((i%2))
+
+        if((key==0))
+        then
             echo " "
             echo -e "To roll die press enter button"
             read ch
@@ -112,19 +118,26 @@ function checkPosition()
                 echo -e "\nYou are now on ladder $newPosition."
             fi
 
-            if ((Position > newPosition ))
+            if ((Position > newPosition))
             then
                 echo -e "\nYou are now on snake $newPosition."
             fi
 
             echo -e "1st player - $newPosition."
             Position=$newPosition
+        fi
+
+        i=$((i+1))
     done
 
-    if((Position == 100))
+    if((Position >= 100))
     then
-        echo "You won"
+        echo -e "You won"
+        echo ""
     fi
+
+
+
 
 
 
