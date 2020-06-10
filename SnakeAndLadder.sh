@@ -1,6 +1,5 @@
 #!/bin/bash -x
-
-declare i=0
+declare -A dicePlayed
 
 function checkPosition()
 {
@@ -95,27 +94,29 @@ function checkPosition()
     printf "    1   2   3   4   5   6   7   8   9   10          24=go to 58   70= go to 15\n"
 
 
+
+NoOfTimes=0;
+count=0;
    while ((Position < 100 ))
     do
-        key=$((i%2))
-
-        if((key==0))
-        then
+            ((NoOfTimes++));
             echo " "
             echo -e "To roll die press enter button"
             read ch
 
             dice=$(echo "$RANDOM%6+1" )
+            ((count++));
+            echo "Dice played $count times"
 
+            dicePlayed["$NoOfTimes"]=$dice
             Position=$((Position+dice))
-
-            echo -e "You are on $Position.\n"
+            echo -e "You are on position $Position.\n"
 
             checkPosition
 
             if ((Position < newPosition))
             then
-                echo -e "\nYou are now on ladder $newPosition."
+                echo -e "\nYou are now on ladder & position $newPosition."
             fi
 
             if ((Position > newPosition))
@@ -125,9 +126,7 @@ function checkPosition()
 
             echo -e "1st player - $newPosition."
             Position=$newPosition
-        fi
 
-        i=$((i+1))
     done
 
     if((Position >= 100))
@@ -135,7 +134,6 @@ function checkPosition()
         echo -e "You won"
         echo ""
     fi
-
 
 
 
