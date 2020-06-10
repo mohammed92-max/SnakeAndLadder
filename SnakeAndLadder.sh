@@ -1,5 +1,6 @@
 #!/bin/bash -x
-declare -A dicePlayed
+
+declare i=0
 
 function checkPosition()
 {
@@ -82,6 +83,88 @@ function checkPosition()
     esac
 }
 
+function checkPosition1()
+{
+    case $Position1 in
+        8)
+            newPosition1=20
+            ;;
+
+        10)
+            newPosition1=25
+            ;;
+
+        15)
+            newPosition1=10
+            ;;
+
+        19)
+            newPosition1=50
+            ;;
+
+        20)
+            newPosition1=10
+            ;;
+
+        21)
+            newPosition1=3
+            ;;
+
+        24)
+            newPosition1=58
+            ;;
+
+        27)
+            newPosition1=37
+            ;;
+
+        34)
+            newPosition1=20
+            ;;
+
+        42)
+            newPosition1=11
+            ;;
+
+        46)
+            newPosition1=53
+            ;;
+
+	
+        49)
+            newPosition1=32
+            ;;
+
+        67)
+            newPosition1=5
+            ;;
+
+        70)
+            newPosition1=15
+            ;;
+
+        75)
+            newPosition1=32
+            ;;
+
+        80)
+            newPosition1=10
+            ;;
+
+        85)
+            newPosition1=50
+            ;;
+
+        90)
+            newPosition1=70
+            ;;
+
+        *)
+            newPosition1=$Position1
+            ;;
+    esac
+}
+
     printf "   100  99  98  97  96  95  94  93  92  91\n"
     printf "    81  82  83  84  85  86  87  88  89  90     \n"
     printf "    80  79  78  77  76  75  74  73  72  71          1=Start       27=go to 37         75=go to 32\n"
@@ -93,30 +176,32 @@ function checkPosition()
     printf "    20  19  18  17  16  15  14  13  12  11          21=go  to 3   67=go to 5  \n"
     printf "    1   2   3   4   5   6   7   8   9   10          24=go to 58   70= go to 15\n"
 
-
-
-NoOfTimes=0;
-count=0;
-   while ((Position < 100 ))
+    NoOfTimes=0;
+    count=0;
+    while ((Position < 100 && Position1 < 100))
     do
-            ((NoOfTimes++));
+        ((NoOfTimes++));
+        key=$((i%2))
+
+        if((key==0))
+        then
             echo " "
+            echo "1st player"
             echo -e "To roll die press enter button"
             read ch
 
             dice=$(echo "$RANDOM%6+1" )
             ((count++));
-            echo "Dice played $count times"
-
-            dicePlayed["$NoOfTimes"]=$dice
+            echo "dice played $count times"
             Position=$((Position+dice))
+
             echo -e "You are on position $Position.\n"
 
             checkPosition
 
             if ((Position < newPosition))
             then
-                echo -e "\nYou are now on ladder & position $newPosition."
+                echo -e "\nYou are now on ladder $newPosition."
             fi
 
             if ((Position > newPosition))
@@ -127,12 +212,46 @@ count=0;
             echo -e "1st player - $newPosition."
             Position=$newPosition
 
+            else
+            echo " "
+            echo "2nd player"
+            echo "To roll die,press enter"
+            read ch
+
+            dice=$(echo "$RANDOM%6+1" )
+            ((count++));
+            echo "dice played $count times"
+
+            Position1=$((Position1+dice))
+
+            echo -e "You are on $Position1.\n"
+
+            checkPosition1
+
+            if ((Position1 < newPosition1))
+            then
+                echo -e "You are now on ladder $newPosition1."
+            fi
+
+            if ((Position1 > newPosition1))
+            then
+                echo -e "You are now on snake $newPosition1."
+            fi
+            echo -e "2nd player - $newPosition1."
+            Position1=$newPosition1
+
+        fi
+
+        i=$((i+1))
+
     done
 
-    if((Position >= 100))
+    if((Position1 = 100))
     then
-        echo -e "You won"
-        echo ""
+        echo -e "2nd player won"
+    elif((Position = 100))
+    then
+        echo -e "1st player won"
     fi
 
 
